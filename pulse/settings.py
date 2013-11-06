@@ -8,7 +8,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -122,7 +122,7 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
-CACHE_MIDDLEWARE_ANONYMOUS_ONLY= True
+
 ROOT_URLCONF = 'pulse.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -142,7 +142,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
-    'djcelery',
+    #'djcelery',
     'rest_framework',
     'mockups',
     'south',
@@ -189,18 +189,5 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
    
 )
 
-CACHES = {
-     'default': {
-         'BACKEND': 'redis_cache.RedisCache',
-         'LOCATION': 'localhost:6379',
-         'OPTIONS': {
-             'DB': 1,
-             #'PARSER_CLASS': 'redis.connection.HiredisParser'
-             #La parte superior causa un pequeno error al momento de ejecutar redis desde el shell
-         }
-     }
- }
 
-import djcelery
-djcelery.setup_loader()
-BROKER_URL = 'redis://localhost:6379/0'
+
