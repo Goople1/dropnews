@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8" />
+
+	<meta name="viewport" 
+		  content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+	<title>DropNews: Comunidad online de full Noticias</title>
+	<link rel="stylesheet" href="normalize.css" />
+	<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css' />
+	<link rel="stylesheet" href="/static/estilos.css" />
+	<link rel="stylesheet" href="/static/responsive.css" />
+</head>
+<body>
+	<!-- comentario de lo que sea -->
+	<header>
+		<figure id="logo">
+			<img src="logo.png" />
+		</figure>
+		<h1 id="titulo_header">Puls3: Comunidad de gente cool, atractiva y millonaria</h1>
+		{% if  request.user.is_authenticated %}
+		<figure id="avatar">
+			<a href="{% url "misfavoritos" %}"><img src="{{MEDIA_URL}}{{request.user.foto}}" /></a>
+			<figcaption id="flecha">
+				
+			</figcaption>
+			 
+    			
+		</figure>
+			<ul id="salir">
+					
+      				<li><a href="{% url "salir" %}">Salir</a></li>
+      			</ul>
+		{% endif %}
+	</header>
+	  {% include 'menu.html' %}
+
+	<section id="contenido">
+	    <form method="post" enctype="multipart/form-data">
+	    <div id="form">
+	        {% csrf_token %}
+		    {{form.as_p}}
+		    <input type="submit">
+		<form>
+		</div>
+	</section>
+	<footer>
+		<p><strong>DSI</strong> {{frase}}</p>
+		<p>Upao 2013 ®</p>
+	</footer>
+	<script>
+	 window.onload=iniciar;
+	 function iniciar()
+	 {
+	 	
+	 	var fecha=document.getElementById('flecha');
+	 	if(fecha != null)
+	 	{
+	 	 	fecha.onmouseover=function()
+		 	{
+		 		document.getElementById('salir').style.display='block';
+		 	};
+	 	}
+	 	
+
+	 }
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

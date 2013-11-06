@@ -1,0 +1,65 @@
+<!--		<nav>
+		<ul>
+			<li id="flechita_nav"><a href="/"></a></li>
+			{% for cat in menu %}
+			    <li><a href="{{cat.url}}" {% if cat.active %} style="color:red" {% endif %}>{{cat.name}}</a></li>
+			{% endfor %}
+			<li id="publicar_nav"><a href="{% url "add" %}">Publicar</a></li>
+		</ul>
+	</nav>-->
+	
+	<nav>
+		<ul>
+			<li id="flechita_nav"><a href="/"></a></li>
+			{% for cat in categorias %}
+			    <li><a href="{% url "categoria" cat.pk %}">{{cat}}</a></li>
+			{% endfor %}
+
+			<li><a style="padding-bottom:0px;"><input type="text" id="buscarSpeech"   x-webkit-speech onwebkitspeechchange="buscarPorVoz()"></a></li>
+			<li id="publicar_nav"><a href="{% url "add" %}">Publicar</a></li>
+		</ul>
+	</nav>
+<script>
+	 	function buscarPorVoz()
+	 	{
+	 		console.log("Entra la Voz Peru"+document.getElementById('buscarSpeech').value);
+			if(window.XMLHttpRequest) 
+			  {
+			    peticion_http = new XMLHttpRequest();
+			    console.log("Chrome");
+			  }
+			  else if(window.ActiveXObject) 
+			  {
+			    peticion_http = new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			  
+			  // Preparar la funcion de respuesta
+			  console.log(peticion_http)
+			  peticion_http.onreadystatechange = muestraContenido;
+			 
+			  // Realizar peticion HTTP
+			 
+			  peticion_http.open('GET', '/buscarEnlace?busca='+document.getElementById('buscarSpeech').value, true);
+			  peticion_http.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+			  peticion_http.send(null);
+			 
+			  function muestraContenido() 
+			  {
+			    if(peticion_http.readyState == 4) 
+			    {
+			      if(peticion_http.status == 200) 
+			      {
+			         if(peticion_http.responseText ==0)
+			         {
+			         	alert("No hay Coincidencias")
+			         }
+			         else
+			         {
+			         	alert("Ha dodnde Go:"+peticion_http.responseText);
+			         	window.location.href="http://localhost:8000/"+peticion_http.responseText;
+			         }
+			      }
+			    }
+			  }
+	 	}
+</script>	

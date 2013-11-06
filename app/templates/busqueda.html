@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8" />
+
+	<meta name="viewport" 
+		  content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+	<title>DropNews: Comunidad online de full Noticias</title>
+	{% load static from staticfiles %}
+	<link rel="stylesheet" href="{% static "normalize.css" %}" />
+	<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css' />
+	
+	<link rel="stylesheet" href="{% static "estilos.css"%}" />
+	<link rel="stylesheet" href="{% static "responsive.css"%}"/>
+</head>
+<body>
+	<!-- comentario de lo que sea -->
+	<header>
+		<figure id="logo">
+			<img src="logo.png" />
+		</figure>
+		
+		<h1 id="titulo_header">DropNews: Comunidad online de full Noticias</h1>
+		{% if  request.user.is_authenticated %}
+		<figure id="avatar">
+			<img src="{{MEDIA_URL}}{{request.user.foto}}" />
+			<figcaption id="flecha">
+				
+			</figcaption>
+			 
+    			
+		</figure>
+			<ul id="salir">
+      				<li><a href="{% url "salir" %}"> Salir </a></li>
+      			</ul>
+		{% endif %}
+	</header>
+     {% include 'menu.html' %}
+	<aside id="bienvenida">
+	    {% if not request.user.is_authenticated %}
+		<h2>Hola, registrate!</h2>
+		<p>Es importante registrarte!</p>
+		<a id="registro" href="{% url "usuario"  %}">Registrate acá</a>
+		<p id="mensaje_registro">En serio, registrate por favor</p>
+		{% else %}
+			Hola {{request.user}}
+		{% endif %}	 
+	</aside>
+
+	<section id="contenido">
+	    {% if enl %}
+	    
+	    {% for enlace in enl %}
+		<article class="item">
+			<figure class="imagen_item">
+				<img src="{{MEDIA_URL}}{{enlace.imagen}}" />
+			</figure>
+			<h2 class="titulo_item">
+				<a href="{{enlace.enlace}}">{{enlace.titulo}}</a>
+			</h2>
+			<p class="autor_item">
+				Por <a href="#">{{enlace.usuario}}</a>
+			</p>
+			<p class="datos_item">
+				<a class="tag_item" href="#">{{enlace.categoria}}</a>
+				<span class="fecha_item">Hace <strong>{{enlace.timestamp|timesince}}</strong> min</span>
+				<a class="guardar_item" href="{% url "favorito" enlace.pk %}"></a>
+				<a class="reportar_item" title="Reportar" href="{% url "reportar" enlace.pk %}"></a>
+			</p>
+			<p class="votacion">
+				<a class="up" href="{% url "plus" enlace.pk %}"></a>
+				{{enlace.votos}}
+				<a class="down" href="{% url "minus" enlace.pk %}"></a>
+			</p>
+		</article>
+		{% endfor %}
+		{% else %}
+		    NO HAY ENLACES GUARDADOS Agrega!
+		{% endif %}
+	</section>
+
+	<footer>
+		<p><strong>DSI</strong> {{frase}}</p>
+		<p>Upao 2013 ®</p>
+	</footer>
+	<script>
+	 window.onload=iniciar;
+	 function iniciar()
+	 {
+	 	
+	 	var fecha=document.getElementById('flecha');
+	 	if(fecha != null)
+	 	{
+	 	 	fecha.onmouseover=function()
+		 	{
+		 		document.getElementById('salir').style.display='block';
+		 	};
+	 	}
+	 	
+	 }
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
